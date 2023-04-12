@@ -4,7 +4,7 @@ const PUBLIC_KEY = process.env.PUBLIC_KEY
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3("https://polygon-mumbai.g.alchemy.com/v2/Ds0fArMHuuBrg_TtPCqjkaZ_LJhlgezl")
+const web3 = createAlchemyWeb3(API_URL)
 
 const contract = require("../artifacts/contracts/FixedToken.sol/FixedToken.json")
 const contractAddress = "0x049ebdfd01f66180b0ce24292e2dec2371dc1548"
@@ -15,14 +15,14 @@ async function burn(uint) {
 
   //the transaction
   const tx = {
-    from: "0x781C46d942Be56f91fE97C3E82eA0c693Fa6722C",
-    to: "0x049ebdfd01f66180b0ce24292e2dec2371dc1548",
+    from: PUBLIC_KEY,
+    to: contractAddress,
     nonce: nonce,
     gas: 500000,
     data: nftContract.methods.burn(500).encodeABI(),
   }
 
-  const signPromise = web3.eth.accounts.signTransaction(tx, "76f2788c802d9c51887eb8c4f55dc476a379151a4d0222b6f86107023412e19b")
+  const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
   signPromise
     .then((signedTx) => {
       web3.eth.sendSignedTransaction(
