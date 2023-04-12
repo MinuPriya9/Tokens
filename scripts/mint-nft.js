@@ -10,7 +10,7 @@ const contract = require("../artifacts/contracts/FixedToken.sol/FixedToken.json"
 const contractAddress = "0x049ebdfd01f66180b0ce24292e2dec2371dc1548"
 const nftContract = new web3.eth.Contract(contract.abi, "0x049ebdfd01f66180b0ce24292e2dec2371dc1548")
 
-async function mint(uint) {
+async function burn(uint) {
   const nonce = await web3.eth.getTransactionCount("0x781C46d942Be56f91fE97C3E82eA0c693Fa6722C", "latest") //get latest nonce
 
   //the transaction
@@ -19,7 +19,7 @@ async function mint(uint) {
     to: "0x049ebdfd01f66180b0ce24292e2dec2371dc1548",
     nonce: nonce,
     gas: 500000,
-    data: nftContract.methods.mint("0x4D218CD7629Bcb3E6EEd73c8f7fE7Bc9Fd620DD1", 500).encodeABI(),
+    data: nftContract.methods.burn(500).encodeABI(),
   }
 
   const signPromise = web3.eth.accounts.signTransaction(tx, "76f2788c802d9c51887eb8c4f55dc476a379151a4d0222b6f86107023412e19b")
@@ -47,8 +47,8 @@ async function mint(uint) {
       console.log(" Promise failed:", err)
     })
 }
-//burn()
-mint()
+burn()
+//mint()
 //transfer()
 
 
