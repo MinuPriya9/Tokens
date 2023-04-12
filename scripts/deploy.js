@@ -1,4 +1,5 @@
 async function main() {
+    const {ethers, hre} = require("hardhat");
     const FixedToken = await ethers.getContractFactory("FixedToken")
   
     // Start deployment, returning a promise that resolves to a contract object
